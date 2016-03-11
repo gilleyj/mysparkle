@@ -14,60 +14,41 @@
 #            :custom_cookbooks_source_revision => 'master',
 #  )
 
-SparkleFormation.dynamic(:opsworks_stack) do |_name, _config = {}|
-  stack_name = "#{_name}_stack"
+SparkleFormation.dynamic(:opsworks_stack) do |name, config = {}|
+  stack_name = "#{name}_stack"
+
   resources(stack_name.to_s.to_sym) do
     type 'AWS::OpsWorks::Stack'
     properties do
       name stack_name
-      shortname _config[:shortname]
-      stack_id _config[:stackid]
+      shortname config[:shortname]
+      stack_id config[:stackid]
+
       auto_assign_elastic_ips false
       auto_assign_public_ips true
-      if _config[:configuration_manager]
+
+      if config[:configuration_manager]
         configuration_manager do
-          name _config[:configuration_manager_name]
-          version _config[:configuration_manager_version]
+          name config[:configuration_manager_name]
+          version config[:configuration_manager_version]
         end
       end
 
-      if _config[:use_custom_cookbooks]
+      if config[:use_custom_cookbooks]
         configuration_manager do
-          name _config[:configuration_manager_name]
-          version _config[:configuration_manager_version]
+          name config[:configuration_manager_name]
+          version config[:configuration_manager_version]
         end
       end
 
-      if _config[:custom_cookbooks_source]
-        custom_cookbooks_source _config[:custom_cookbooks_source]
+      if config[:custom_cookbooks_source]
+        custom_cookbooks_source config[:custom_cookbooks_source]
         custom_cookbooks_source do
-          type _config[:custom_cookbooks_source_type]
-          url _config[:custom_cookbooks_source_url]
-          revision _config[:custom_cookbooks_source_revision]
+          type config[:custom_cookbooks_source_type]
+          url config[:custom_cookbooks_source_url]
+          revision config[:custom_cookbooks_source_revision]
         end
       end
     end
   end
 end
-
-# "AWS::OpsWorks::Stack": {
-#    "properties": [
-#      "AgentVersion",
-#      "Attributes",
-#      "ChefConfiguration",
-#      "ConfigurationManager",
-#      "CustomCookbooksSource",
-#      "CustomJson",
-#      "DefaultAvailabilityZone",
-#      "DefaultInstanceProfileArn",
-#      "DefaultOs",
-#      "DefaultRootDeviceType",
-#      "DefaultSshKeyName",
-#      "DefaultSubnetId",
-#      "HostnameTheme",
-#      "Name",
-#      "ServiceRoleArn",
-#      "UseCustomCookbooks",
-#      "UseOpsworksSecurityGroups",
-#      "VpcId"
-#    ],

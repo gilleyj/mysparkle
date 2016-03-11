@@ -1,18 +1,19 @@
 # Make a default security group
-#
-SparkleFormation.dynamic(:security_group) do |_name, _config = {}|
-  sg_name = "#{_name}_security_group"
+# dynamic!(:security_group, 'sample')
+
+SparkleFormation.dynamic(:security_group) do |name, _config = {}|
+  sg_name = "#{name}_security_group"
 
   # Create the SecurityGroup resource
   resources(sg_name.to_sym) do
     type 'AWS::EC2::SecurityGroup'
     properties do
-      group_description "Default security group for #{_name} stack"
+      group_description "Default security group for #{name} stack"
     end
   end
 
   # Create the SSH ingress rule for the security group
-  resources("security_group_ingress_ssh".to_sym) do
+  resources('security_group_ingress_ssh'.to_sym) do
     type 'AWS::EC2::SecurityGroupIngress'
     properties do
       from_port 22

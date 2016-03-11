@@ -14,7 +14,7 @@ SparkleFormation.new('sample_app').load(:base).overrides do
   http_port = '80'
 
   https_protocol = 'tcp'
-  https_protocol = '443'
+  https_port = '443'
 
   # Create the security groups
   dynamic!(:security_group, 'sample')
@@ -28,7 +28,7 @@ SparkleFormation.new('sample_app').load(:base).overrides do
            cidr_ip: '0.0.0.0/0'
           )
   dynamic!(:security_group_ingress, 'https',
-           port: http_port,
+           port: https_port,
            ip_protocol: https_protocol,
            source_group_name: ref!(:sample_security_group.to_sym),
            group_name: ref!(:sample_security_group.to_sym),

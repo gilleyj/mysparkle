@@ -1,11 +1,3 @@
-# Config:
-#   :shortname as string
-#   :type as string
-#   :stackid as string
-#   :app_source_type as string
-#   :app_source_url as string
-#   :app_source_branch as string
-#   :domain as string
 #
 # create app
 #  dynamic!(:opsworks_app, 'app',
@@ -16,21 +8,21 @@
 #           :app_source_branch => 't/moresupervisor'
 #  )
 
-SparkleFormation.dynamic(:opsworks_app) do |_name, _config = {}|
-  app_name = _name.to_s
+SparkleFormation.dynamic(:opsworks_app) do |name, config = {}|
+  app_name = name.to_s
 
   resources(app_name.to_s.to_sym) do
     type 'AWS::OpsWorks::App'
     properties do
-      shortname _config[:shortname] if _config[:shortname]
-      type _config[:type]
-      stackid _config[:stackid]
+      shortname config[:shortname] if config[:shortname]
+      type config[:type]
+      stackid config[:stackid]
       appsource [
-        'Type'      => _config[:app_source_type],
-        'Url'       => _config[:app_source_url],
-        'Revision'  => _config[:app_source_branch]
+        'Type'      => config[:app_source_type],
+        'Url'       => config[:app_source_url],
+        'Revision'  => config[:app_source_branch]
       ]
-      domains _config[:domain] if _config[:domain]
+      domains config[:domain] if config[:domain]
     end
   end
 end
