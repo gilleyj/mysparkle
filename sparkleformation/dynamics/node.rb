@@ -1,5 +1,4 @@
-SparkleFormation.dynamic(:node) do |name, opts={}|
-
+SparkleFormation.dynamic(:node) do |name, _opts = {}|
   parameters do
     set!("#{name}_image_id".to_sym).type 'String'
     set!("#{name}_ssh_key_name".to_sym).type 'String'
@@ -22,6 +21,4 @@ SparkleFormation.dynamic(:node) do |name, opts={}|
       key_name ref!("#{name}_ssh_key_name".to_sym)
     end
   end
-
 end
-
